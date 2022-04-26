@@ -2,7 +2,7 @@ const { User } = require('../models');
 
 module.exports = {
   // Get all users
-  getUser(req, res) {
+  getUsers(req, res) {
     User.find()
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
@@ -29,7 +29,7 @@ module.exports = {
   },
   // Delete a User
   deleteUser(req, res) {
-    User.findOneAndDelete({ _id: req.params.UserId })
+    User.findOneAndDelete({ _id: req.params.userId })
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
@@ -62,7 +62,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
     },
 
-  deleteFried(req, res) {
+  deleteFriend(req, res) {
     User.findOneAndDelete({ _id: req.params.userId },
       { $pull: { friends: req.params.friendsId } },
       { runValidators: true, new: true })
