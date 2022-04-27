@@ -34,6 +34,14 @@ Eugene Ahn
 ## Walk Through
 
 
+User/Friend:
+https://drive.google.com/file/d/1o4gjF8hH3IcSRjjNc7tINAqQeP5FXqeX/view
+
+
+Thoughts/Reactions:
+https://drive.google.com/file/d/1Up9iman1g74eFmxCqvrVsfsBTKR0GfAY/view
+
+
 
 ## Deployment
 
