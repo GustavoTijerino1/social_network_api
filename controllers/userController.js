@@ -1,78 +1,94 @@
-const { User } = require('../models');
+const { ObjectId } = require('mongoose').Types;
+const { User, Thought } = require('../models')
 
-module.exports = {
-  // Get all users
-  getUsers(req, res) {
-    User.find()
-      .then((user) => res.json(user))
-      .catch((err) => res.status(500).json(err));
-  },
-  // Get a user
-  getSingleUser(req, res) {
-    User.findOne({ _id: req.params.userId })
-      .select('-__v')
-      .then((user) =>
-        !user
-          ? res.status(404).json({ message: 'No User with that ID' })
-          : res.json(user)
-      )
-      .catch((err) => res.status(500).json(err));
-  },
-  // Create a User
-  createUser(req, res) {
-    User.create(req.body)
-      .then((user) => res.json(user))
-      .catch((err) => {
-        console.log(err);
-        return res.status(500).json(err);
-      });
-  },
-  // Delete a User
-  deleteUser(req, res) {
-    User.findOneAndDelete({ _id: req.params.userId })
-      .then((user) => res.json(user))
-      .catch((err) => res.status(500).json(err));
-  },
-  // Update a User
-  updateUser(req, res) {
-    User.findOneAndUpdate(
-      { _id: req.params.userId },
-      { $set: req.body },
-      { runValidators: true, new: true }
-    )
-      .then((user) =>
-        !user
-          ? res.status(404).json({ message: 'No user with this id!' })
-          : res.json(user)
-      )
-      .catch((err) => res.status(500).json(err));
-  },
+/* ===================+============== User Section ===================================== */
 
-
-
-  addFriend(req, res) {
-    User.findOneAndUpdate({ _id: req.params.userId },
-      { $addToSet: { friends: req.params.friendsId } },
-      { runValidators: true, new: true })
-      .then((friends) =>
-        !friends
-          ? res.status(404).json({ message: 'No friends with this id!' })
-          : res.json(friends)
-      )
-      .catch((err) => res.status(500).json(err));
-    },
-
-  deleteFriend(req, res) {
-    User.findOneAndDelete({ _id: req.params.userId },
-      { $pull: { friends: req.params.friendsId } },
-      { runValidators: true, new: true })
-      .then((friends) =>
-      !friends
-        ? res.status(404).json({ message: 'No friends with this id!' })
-        : res.json(friends)
-      )
-      .catch((err) => res.status(500).json(err));
-  },
-
+async function getUsers(req, res) {
+  try {
+    const allUsers = await User.find()
+    return res.json(allUsers)
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json(err)
+  }
 }
 
+async function createUser(req, res) {
+  try {
+    const newUser = await User.create(req.body)
+    return res.json(newUser)
+  } catch (err) {
+    return res.status(500).json(err)
+  }
+}
+
+async function getUserById(req, res) {
+  try {
+    const user = await User.findById(req.params.userId)
+    return res.json(user)
+  } catch (err) {
+    return res.status(500).json(err)
+  }
+}
+
+async function updateUserById(req, res) {
+  try {
+    const updUser = await User.updateOne(
+      { _id: req.params.userId},
+      req.body,
+      {runValidators: true, new: true}
+    )
+    return res.json(updUser)
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json(err)
+  }
+}
+
+async function deleteUserById(req, res) {
+  try {
+    const delUser = await User.deleteOne({ _id: req.params.userId})
+    return res.json(delUser)
+  } catch (err) {
+    return res.status(500).json(err)
+  }
+}
+
+/* ===================+============== Friend Section ===================================== */
+
+async function addFriendById(req, res) {
+  try {
+    const updUser = await User.findByIdAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendId } },
+      { new: true }
+    )
+    return res.json(updUser)
+  } catch (err) {
+    return res.status(500).json(err)
+  }
+}
+
+async function deleteFriendById(req, res) {
+  try {
+    const updUser = await User.findByIdAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
+    )
+    return res.json(updUser)
+  } catch (err) {
+    return res.status(500).json(err)
+  }
+}
+
+// Export all functions
+module.exports = {
+  getUsers,
+  createUser,
+  getUserById,
+  updateUserById,
+  deleteUserById,
+  addFriendById,
+  deleteFriendById
+}
