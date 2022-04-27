@@ -1,7 +1,7 @@
 const USERS = [
-  {username: 'Edge', email: 'edge@gmail.com'},
+  {username: 'Goku', email: 'goku@gmail.com'},
   {username: 'Goat', email: 'goat@gmail.com'},
-  {username: 'lola', email: 'lola@gmail.com'}
+  {username: 'Naruto', email: 'naruto@gmail.com'}
 ]
 
 module.exports = USERS;
