@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
+
+// Acquires all of the user controllers
 const C = require('../../controllers/userController')
 
 router.route('/').get(C.getUsers).post(C.createUser)

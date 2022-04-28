@@ -33,6 +33,8 @@ Eugene Ahn
 
 ## Walk Through
 
+![View All.](./assets/img/data.png)
+
 
 User/Friend:
 https://drive.google.com/file/d/1o4gjF8hH3IcSRjjNc7tINAqQeP5FXqeX/view
